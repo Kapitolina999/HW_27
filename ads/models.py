@@ -9,6 +9,12 @@ class Ad(models.Model):
     address = models.CharField(max_length=200)
     is_published = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
