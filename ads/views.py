@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from ads.models import Ad, Category
 
@@ -16,9 +16,10 @@ class MainView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class AdView(View):
+class AdView(ListView):
+    model = Ad
     def get(self, request):
-        ads = Ad.objects.all()
+        ads = self.get_queryset()
         return JsonResponse([
             {'name': ad.name,
              'author': ad.author,
@@ -30,7 +31,7 @@ class AdView(View):
     def post(self, request):
         new_ad = json.loads(request.body)
         ad = Ad(name=new_ad['name'], author=new_ad['author'], price=new_ad['price'], description=new_ad['description'],
-                address=new_ad['address'], is_published=new_ad['is_published'])
+                address=new_ad['address'], is_published=new_ad.get('is_published', True))
         ad.save()
         return JsonResponse(new_ad, status=200)
 

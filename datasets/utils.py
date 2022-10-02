@@ -35,7 +35,14 @@ def csv_to_json(file_csv: str, file_json: str, fieldnames: list, name_model: str
         json.dump(data, json_file, ensure_ascii=False)
 
 
-fieldnames = ['id', 'name', 'author', 'price', 'description', 'address', 'is_published']
-csv_to_json('ads.csv', 'ads.json', fieldnames, 'ads.ad')
+fieldnames = ['id', 'name', 'author_id', 'price', 'description', 'is_published', 'image', 'category_id']
+csv_to_json('ad.csv', 'ad.json', fieldnames, 'ads.ad')
+
 fieldnames = ['id', 'name']
-csv_to_json('categories.csv', 'categories.json', fieldnames, 'ads.category')
+csv_to_json('category.csv', 'category.json', fieldnames, 'ads.category')
+
+fieldnames = ['id', 'name', 'lat', 'lng']
+csv_to_json('location.csv', 'location.json', fieldnames, 'ads.location')
+
+fieldnames = ['id', 'first_name', 'last_name', 'username', 'password', 'role', 'age', 'location_id']
+csv_to_json('user.csv', 'user.json', fieldnames, 'ads.user')

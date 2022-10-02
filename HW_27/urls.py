@@ -20,9 +20,9 @@ from ads.views import MainView, AdView, AdDetailView, CategoryView, CategoryDeta
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", MainView.as_view()),
-    path("ad/", AdView.as_view()),
+    path("", MainView.as_view(), name='main'),
+    path("ad/", AdView.as_view(), name='ad'),
     path("ad/<int:pk>/", AdDetailView.as_view()),
-    path("cat/", CategoryView.as_view()),
+    path("cat/", CategoryView.as_view(), name='category'),
     path("cat/<int:pk>/", CategoryDetailView.as_view()),
 ]
