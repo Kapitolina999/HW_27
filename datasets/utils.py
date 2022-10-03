@@ -1,6 +1,8 @@
 import csv
 import json
 
+from users.models import User
+
 
 def change_dictionary(dictionary: dict) -> dict:
     for key, value in dictionary.items():
@@ -16,6 +18,7 @@ def get_fixture(dictionary: dict, name_model) -> dict:
     pk = dictionary.pop('id')
 
     for key, value in dictionary.items():
+        # if key != 'location_id':
         fields[key] = value
 
     fixture = {'model': name_model,
@@ -42,7 +45,7 @@ fieldnames = ['id', 'name']
 csv_to_json('category.csv', 'category.json', fieldnames, 'ads.category')
 
 fieldnames = ['id', 'name', 'lat', 'lng']
-csv_to_json('location.csv', 'location.json', fieldnames, 'ads.location')
+csv_to_json('location.csv', 'location.json', fieldnames, 'users.location')
 
 fieldnames = ['id', 'first_name', 'last_name', 'username', 'password', 'role', 'age', 'location_id']
-csv_to_json('user.csv', 'user.json', fieldnames, 'ads.user')
+csv_to_json('user.csv', 'user.json', fieldnames, 'users.user')
