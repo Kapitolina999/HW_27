@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("age", models.IntegerField(blank=True)),
-                ("location_id", models.ManyToManyField(to="users.location")),
+                ("location_id", models.ManyToManyField(to="users.locations")),
             ],
             options={
                 "verbose_name": "Пользователь",

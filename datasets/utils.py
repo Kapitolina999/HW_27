@@ -1,8 +1,6 @@
 import csv
 import json
 
-from users.models import User
-
 
 def change_dictionary(dictionary: dict) -> dict:
     for key, value in dictionary.items():
@@ -45,7 +43,8 @@ fieldnames = ['id', 'name']
 csv_to_json('category.csv', 'category.json', fieldnames, 'ads.category')
 
 fieldnames = ['id', 'name', 'lat', 'lng']
-csv_to_json('location.csv', 'location.json', fieldnames, 'users.location')
+csv_to_json('location.csv', 'location.json', fieldnames, 'users.locations')
 
 fieldnames = ['id', 'first_name', 'last_name', 'username', 'password', 'role', 'age', 'location_id']
 csv_to_json('user.csv', 'user.json', fieldnames, 'users.user')
+

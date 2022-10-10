@@ -34,3 +34,10 @@ class Ad(models.Model):
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
 
+    @property
+    def author_name(self):
+        return f'{self.author.first_name} {self.author.last_name}'
+
+    @property
+    def category_name(self):
+        return self.category.name

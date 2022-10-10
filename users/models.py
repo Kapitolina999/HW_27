@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
@@ -28,8 +26,8 @@ class User(models.Model):
     username = models.CharField(max_length=30, unique=True, blank=False)
     password = models.CharField(max_length=20)
     role = models.CharField(choices=STATUS, max_length=9)
-    age = models.IntegerField(blank=True)
-    location = models.ManyToManyField(Location)
+    age = models.SmallIntegerField(blank=True)
+    locations = models.ManyToManyField(Location)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -37,3 +35,6 @@ class User(models.Model):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    def open_ads(self):
+        return self.ads.filter(is_published=True).count()
