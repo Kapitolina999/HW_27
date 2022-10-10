@@ -21,7 +21,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    locations = serializers.SlugRelatedField(many=True, required=False, queryset=Location.objects.all(),
+    location = serializers.SlugRelatedField(many=True, required=False, queryset=Location.objects.all(),
                                              slug_field='name')
     password = serializers.CharField(max_length=20, write_only=True)
     role = serializers.CharField(max_length=20, write_only=True)
@@ -31,15 +31,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
         exclude = ['id']
 
     def is_valid(self, *, raise_exception=False):
-        self._locations = self.initial_data.pop('locations')
+        self._location = self.initial_data.pop('location')
         return super().is_valid(raise_exception=raise_exception)
 
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
 
-        for location in self._locations:
+        for location in self._location:
             location_object, _ = Location.objects.get_or_create(name=location)
-            user.locations.add(location_object)
+            user.location.add(location_object)
 
         user.save()
         return user
