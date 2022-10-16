@@ -31,6 +31,8 @@ router.register('ad', AdViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('users.urls.user_urls')),
+    path('selection/', include('ads.urls.select_urls')),
+    path('', include('users.urls.jwt_urls')),
 
 ]
 

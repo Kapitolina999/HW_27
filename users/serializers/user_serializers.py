@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from users.models import User, Location
+from users.serializers.location_serializers import LocationSerializer
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -22,13 +23,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(serializers.ModelSerializer):
     location = serializers.SlugRelatedField(many=True, required=False, queryset=Location.objects.all(),
-                                             slug_field='name')
-    password = serializers.CharField(max_length=20, write_only=True)
-    role = serializers.CharField(max_length=20, write_only=True)
+                                            slug_field='name')
+    password = serializers.CharField(max_length=128, write_only=True)
+    role = serializers.CharField(max_length=9, write_only=True)
 
     class Meta:
         model = User
-        exclude = ['id']
+        fields = "__all__"
 
     def is_valid(self, *, raise_exception=False):
         self._location = self.initial_data.pop('location')
@@ -40,6 +41,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
         for location in self._location:
             location_object, _ = Location.objects.get_or_create(name=location)
             user.location.add(location_object)
+
+        user.set_password(user.password)
 
         user.save()
         return user

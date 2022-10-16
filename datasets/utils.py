@@ -16,8 +16,10 @@ def get_fixture(dictionary: dict, name_model) -> dict:
     pk = dictionary.pop('id')
 
     for key, value in dictionary.items():
-        if key != 'location_id':
+        if key != 'location':
             fields[key] = value
+        else:
+            fields[key] = [value]
 
     fixture = {'model': name_model,
                'pk': pk,
@@ -45,6 +47,5 @@ csv_to_json('category.csv', 'category.json', fieldnames, 'ads.category')
 fieldnames = ['id', 'name', 'lat', 'lng']
 csv_to_json('location.csv', 'location.json', fieldnames, 'users.location')
 
-fieldnames = ['id', 'first_name', 'last_name', 'username', 'password', 'role', 'age', 'location_id']
+fieldnames = ['id', 'first_name', 'last_name', 'username', 'password', 'role', 'age', 'location']
 csv_to_json('user.csv', 'user.json', fieldnames, 'users.user')
-

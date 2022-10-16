@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -14,27 +15,26 @@ class Location(models.Model):
         verbose_name_plural = 'Локации'
 
 
-class User(models.Model):
+class User(AbstractUser):
+    MEMBER = 'member'
+    ADMIN = 'admin'
+    MODERATOR = 'moderator'
     STATUS = [
-        ('member', 'Пользователь'),
-        ('admin', 'Администратор'),
-        ('moderator', 'Модератор')
+            (MEMBER, 'Пользователь'),
+            (ADMIN, 'Администратор'),
+            (MODERATOR, 'Модератор')
     ]
 
-    first_name = models.CharField(max_length=30, null=True)
-    last_name = models.CharField(max_length=30, null=True)
-    username = models.CharField(max_length=30, unique=True, blank=False)
-    password = models.CharField(max_length=20)
     role = models.CharField(choices=STATUS, max_length=9)
     age = models.SmallIntegerField(blank=True)
     location = models.ManyToManyField(Location)
 
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
-
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
     def open_ads(self):
         return self.ads.filter(is_published=True).count()

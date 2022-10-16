@@ -1,12 +1,15 @@
 from django.db.models import Q
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
 from ads.models import Ad
-from ads.serializers.ad_serializers import AdListSerializer
+from ads.permissions import AdPermission
+from ads.serializers.ad_serializers import AdSerializer
 
 
 class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
-    serializer_class = AdListSerializer
+    serializer_class = AdSerializer
 
     def get(self, request, *args, **kwargs):
         search_category = request.GET.getlist('cat')
@@ -22,3 +25,12 @@ class AdViewSet(viewsets.ModelViewSet):
         self.queryset = self.queryset.filter(Q(price__gte=search_price_min) & Q(price__lte=search_price_max)) \
             if search_price_min and search_price_max else self.queryset
         return super().get(request, *args, **kwargs)
+
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            permission_classes = [IsAuthenticated]
+        elif self.action in ('destroy', 'update', 'partial_update'):
+            permission_classes = [AdPermission]
+        else:
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]

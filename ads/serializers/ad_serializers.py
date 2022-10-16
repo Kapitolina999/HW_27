@@ -4,7 +4,7 @@ from ads.models import Ad, Category
 from users.models import User
 
 
-class AdListSerializer(serializers.ModelSerializer):
+class AdSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(max_length=60, read_only=True)
     author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
 

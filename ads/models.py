@@ -41,3 +41,16 @@ class Ad(models.Model):
     @property
     def category_name(self):
         return self.category.name
+
+
+class Selection(models.Model):
+    name = models.CharField(max_length=150)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='select')
+    items = models.ManyToManyField(Ad)
+
+    class Meta:
+        verbose_name = 'Подборка'
+        verbose_name_plural = 'Подборки'
+
+    def __str__(self):
+        return self.name
