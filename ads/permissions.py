@@ -10,12 +10,11 @@ class SelectionPermission(permissions.BasePermission):
         return request.user == obj.owner
 
 
-class AdPermission(permissions.BasePermission):
+class OwnerOrStaffPermission(permissions.BasePermission):
     message = 'У вас нет прав на редактирование'
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
-            return bool(request.user == obj.author or request.user.role in [User.ADMIN, User.MODERATOR])
+        return bool(request.user == obj.author or request.user.role in [User.ADMIN, User.MODERATOR])
 
 
 

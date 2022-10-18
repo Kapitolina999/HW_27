@@ -21,10 +21,10 @@ from rest_framework import routers
 from HW_27 import settings
 from ads.views.ad_views import AdViewSet
 from ads.views.cat_views import CategoryViewSet
-from users.view.location_views import LocationViewSet
+# from users.view.location_views import LocationViewSet
 
 router = routers.SimpleRouter()
-router.register('location', LocationViewSet)
+# router.register('location', LocationViewSet)
 router.register('cat', CategoryViewSet)
 router.register('ad', AdViewSet)
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('user/', include('users.urls.user_urls')),
     path('selection/', include('ads.urls.select_urls')),
     path('', include('users.urls.jwt_urls')),
+    path('location/', include('users.urls.locat_urls'))
 
 ]
 
