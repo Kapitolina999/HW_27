@@ -7,7 +7,5 @@ urlpatterns = [
     path('create/', location_create),
     path('<int:pk>/', location_detail),
     path('<int:pk>/delete/', location_delete),
-    # path('create/', SelectionCreateView.as_view()),
-    # path('<int:pk>/update/', SelectionUpdateView.as_view()),
-    # path('<int:pk>/delete/', SelectionDeleteView.as_view()),
+
 ]

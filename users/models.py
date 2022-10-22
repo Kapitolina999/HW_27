@@ -26,7 +26,7 @@ class User(AbstractUser):
     ]
 
     role = models.CharField(choices=STATUS, max_length=9)
-    age = models.SmallIntegerField(blank=True)
+    age = models.SmallIntegerField(null=True)
     location = models.ManyToManyField(Location)
 
     class Meta:
@@ -38,3 +38,9 @@ class User(AbstractUser):
 
     def open_ads(self):
         return self.ads.filter(is_published=True).count()
+
+    def save(self, *args, **kwargs):
+        self.set_password(self.password)
+        super().save()
+
+
