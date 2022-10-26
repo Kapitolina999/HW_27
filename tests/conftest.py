@@ -13,11 +13,13 @@ register(LocationFactory)
 @pytest.fixture
 @pytest.mark.django_db
 def access_token(client, user):
+    client.post('/user/create/', {'username': user.username, 'email': user.email, 'password': user.password,
+                                  'role': user.role, 'age': user.age, 'birth_date': user.birth_date,
+                                  'location': user.location}, format='json')
 
     response = client.post('/user/token/', {'username': user.username, 'password': user.password}, format='json')
-    print(response)
-    print(response.data)
-    return response.data["access_token"]
+
+    return response.data["access"]
 
 
 # @pytest.fixture

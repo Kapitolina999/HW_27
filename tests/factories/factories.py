@@ -11,6 +11,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     role = 'admin'
     age = 36
     birth_date = factory.Faker('date_object')
+    location = []
 
     class Meta:
         model = User
