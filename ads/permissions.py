@@ -15,7 +15,3 @@ class OwnerOrStaffPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return bool(request.user == obj.author or request.user.role in [User.ADMIN, User.MODERATOR])
-
-
-
-

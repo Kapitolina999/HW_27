@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from users.models import User, Location
+from users.validators.user_validators import check_email, check_birth_date
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -25,6 +27,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
                                             slug_field='name')
     password = serializers.CharField(max_length=128, write_only=True)
     role = serializers.CharField(max_length=9, write_only=True)
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all()), check_email])
+    birth_date = serializers.DateField(validators=[check_birth_date])
 
     class Meta:
         model = User

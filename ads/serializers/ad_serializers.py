@@ -11,6 +11,11 @@ class AdSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), write_only=True)
     category_name = serializers.CharField(max_length=50, read_only=True)
 
+    def create(self, validated_data):
+        if validated_data['is_published']:
+            raise serializers.ValidationError('is_published cannot be "True"')
+        return super().create(validated_data)
+
     class Meta:
         model = Ad
         exclude = ['id']

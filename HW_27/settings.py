@@ -139,3 +139,6 @@ REST_FRAMEWORK = {'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNum
                   }
 
 AUTH_USER_MODEL = 'users.User'
+
+# User settings
+USER_MIN_AGE = 9

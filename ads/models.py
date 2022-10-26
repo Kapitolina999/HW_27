@@ -1,3 +1,4 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 from users.models import User
@@ -5,6 +6,7 @@ from users.models import User
 
 class Category(models.Model):
     name = models.CharField(verbose_name='Категория', max_length=50, unique=True)
+    slug = models.SlugField(max_length=10, unique=True, validators=[MinLengthValidator(5)])
 
     def __str__(self):
         return self.name
@@ -18,11 +20,11 @@ class Ad(models.Model):
     STATUS = [(True, 'Открыто'),
               (False, 'Закрыто')]
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, validators=[MinLengthValidator(10)])
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ads')
     price = models.PositiveIntegerField(default=0)
-    description = models.TextField(blank=True)
-    is_published = models.BooleanField(default=True, choices=STATUS)
+    description = models.TextField(null=True, blank=True)
+    is_published = models.BooleanField(default=False, choices=STATUS)
     image = models.ImageField(upload_to='images', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='ads', null=True)
     created = models.DateField(auto_now=True, null=True)

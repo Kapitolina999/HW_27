@@ -25,12 +25,13 @@ def locations(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, OwnerOrStaffPermission])
+@permission_classes([IsAuthenticated])
 def location_create(request):
-    data_location = json.loads(request.body)
-    location = Location(name=data_location['name'], lat=data_location['lat'], lng=data_location['lng'])
+    data = json.loads(request.body)
+    location = Location(name=data['name'], lat=data['lat'], lng=data['lng'])
     location.save()
-    return JsonResponse(data_location, status=200)
+    # return JsonResponse(data, status=200)
+    return JsonResponse({'name': location.name, 'lat': location.lat, 'lng': location.lng}, status=201)
 
 
 @api_view(['GET'])
