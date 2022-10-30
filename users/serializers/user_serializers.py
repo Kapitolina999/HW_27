@@ -35,15 +35,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def is_valid(self, *, raise_exception=False):
-        self._location = self.initial_data.pop('location')
+        if 'location' in self.initial_data.keys():
+            self._location = self.initial_data.pop('location')
         return super().is_valid(raise_exception=raise_exception)
 
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
-
-        for location in self._location:
-            location_object, _ = Location.objects.get_or_create(name=location)
-            user.location.add(location_object)
+        if 'location' in validated_data:
+            for location in self._location:
+                location_object, _ = Location.objects.get_or_create(name=location)
+                user.location.add(location_object)
 
         # user.set_password(user.password)
 

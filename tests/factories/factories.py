@@ -1,43 +1,45 @@
 import factory
 
-from ads.models import Ad, Selection
-from users.models import Location, User
+from ads.models import Ad, Selection, Category
+from users.models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    username = 'test_name_'
-    email = 'test@test.ru'
+    # username = factory.Sequence(lambda n: 'test_username%s' % n)
+    username = factory.Faker('name')
+    email = factory.Sequence(lambda n: 'test%s@mail.ru' % n)
     password = 'testpassword'
     role = 'admin'
     age = 36
     birth_date = factory.Faker('date_object')
-    location = []
 
     class Meta:
         model = User
+
+
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Category
+
+    name = factory.Sequence(lambda n: 'test_cat_name_%s' % n)
+    slug = factory.Sequence(lambda n: 'slug%s' % n)
 
 
 class AdFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Ad
 
-    name = 'test_name_'
+    name = factory.Sequence(lambda n: 'test_ad_name_%s' % n)
     author = factory.SubFactory(UserFactory)
     price = 100
     is_published = False
+    category = factory.SubFactory(CategoryFactory)
 
 
-class LocationFactory(factory.django.DjangoModelFactory):
-    name = 'test_name'
-    lat = 1.111111
-    lng = 1.111111
-
+class SelectionFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Location
+        model = Selection
 
-# class SelectionFactory(factory.django.DjangoModelFactory):
-#     class Meta:
-#         model = Selection
-#
-#     name = 'test_name'
-#     owner = factory.SubFactory(UserFactory)
+    name = 'test_name_select'
+    owner = factory.SubFactory(UserFactory)
+    items = factory.RelatedFactoryList(AdFactory, 'name')

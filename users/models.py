@@ -40,6 +40,6 @@ class User(AbstractUser):
     def open_ads(self):
         return self.ads.filter(is_published=True).count()
 
-    def save(self, *args, **kwargs):
-        self.set_password(self.password)
-        super().save()
+    # def save(self, *args, **kwargs):
+    #     self.set_password(self.password)
+    #     super().save()
