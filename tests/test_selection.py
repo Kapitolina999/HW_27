@@ -1,17 +1,20 @@
 import json
 
+import factory
 import pytest
-
-from ads.serializers.selection_serializers import SelectionSerializer
 
 
 @pytest.mark.django_db
-def test_selection_create(api_client, selection):
+def test_selection_create(api_client, ad, selection):
+
     data = {"name": selection.name,
             "owner": selection.owner.id,
-            "items": selection.items.name}
+            "items": [ad.id]}
 
-    expected_response = SelectionSerializer(selection).data
+    # expected_response = SelectionSerializer(selection).data
+    expected_response = {'name': 'test_name_select',
+                         'owner': ad.author.id,
+                         'items': [ad.id]}
     response = api_client.post('/selection/create/', data=json.dumps(data), content_type='application/json')
     response_data = response.json()
     assert response.status_code == 201

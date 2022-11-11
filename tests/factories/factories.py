@@ -1,4 +1,5 @@
 import factory
+from django.db.models.signals import m2m_changed
 
 from ads.models import Ad, Selection, Category
 from users.models import User
@@ -42,4 +43,6 @@ class SelectionFactory(factory.django.DjangoModelFactory):
 
     name = 'test_name_select'
     owner = factory.SubFactory(UserFactory)
-    items = factory.RelatedFactoryList(AdFactory, 'name')
+    items = factory.RelatedFactoryList(AdFactory)
+
+
